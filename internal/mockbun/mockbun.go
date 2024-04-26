@@ -56,17 +56,17 @@ func (m *Server) addPorkbunHandlers() {
 		rw.Header().Set("Content-Type", "application/json")
 		if !found {
 			_, _ = rw.Write([]byte(`{
-                "status": "FAILURE",
-                "message": "Domain not found"
-            }`))
+				"status": "FAILURE",
+				"message": "Domain not found"
+			}`))
 			return
 		}
 
 		ns, _ := json.Marshal(nameservers)
 		_, _ = rw.Write([]byte(fmt.Sprintf(`{
-            "status": "SUCCESS",
-            "ns": %s
-        }`, ns)))
+			"status": "SUCCESS",
+			"ns": %s
+		}`, ns)))
 	})
 
 	m.mux.HandleFunc("/domain/updateNs/{domain}", func(rw http.ResponseWriter, req *http.Request) {
@@ -76,9 +76,9 @@ func (m *Server) addPorkbunHandlers() {
 		rw.Header().Set("Content-Type", "application/json")
 		if !found {
 			_, _ = rw.Write([]byte(`{
-                "status": "FAILURE",
-                "message": "Domain not found"
-            }`))
+				"status": "FAILURE",
+				"message": "Domain not found"
+			}`))
 			return
 		}
 
@@ -90,8 +90,8 @@ func (m *Server) addPorkbunHandlers() {
 
 		m.nameservers[domain] = b.Ns
 		_, _ = rw.Write([]byte(`{
-            "status": "SUCCESS"
-        }`))
+			"status": "SUCCESS"
+		}`))
 	})
 
 	m.mux.HandleFunc("/dns/create/{domain}", func(rw http.ResponseWriter, req *http.Request) {
@@ -113,9 +113,9 @@ func (m *Server) addPorkbunHandlers() {
 
 		m.dnsRecords[domain] = append(m.dnsRecords[domain], b)
 		_, _ = rw.Write([]byte(fmt.Sprintf(`{
-            "status": "SUCCESS",
-            "id": "%s"
-        }`, b.ID)))
+			"status": "SUCCESS",
+			"id": "%s"
+		}`, b.ID)))
 	})
 
 	m.mux.HandleFunc("/dns/retrieve/{domain}/{id}", func(rw http.ResponseWriter, req *http.Request) {
@@ -136,17 +136,17 @@ func (m *Server) addPorkbunHandlers() {
 
 		if found.ID == "" { // If found has not been set.
 			_, _ = rw.Write([]byte(`{
-                "status": "FAILURE",
-                "message": "Record not found"
-            }`))
+				"status": "FAILURE",
+				"message": "Record not found"
+			}`))
 			return
 		}
 
 		rs, _ := json.Marshal([]porkbun.DNSRecord{found})
 		_, _ = rw.Write([]byte(fmt.Sprintf(`{
-            "status": "SUCCESS",
-            "records": %s
-        }`, rs)))
+			"status": "SUCCESS",
+			"records": %s
+		}`, rs)))
 	})
 
 	m.mux.HandleFunc("/dns/edit/{domain}/{id}", func(rw http.ResponseWriter, req *http.Request) {
@@ -158,9 +158,9 @@ func (m *Server) addPorkbunHandlers() {
 		_, ok := m.dnsRecords[domain]
 		if !ok {
 			_, _ = rw.Write([]byte(`{
-                "status": "FAILURE",
-                "message": "Record not found"
-            }`))
+				"status": "FAILURE",
+				"message": "Record not found"
+			}`))
 			return
 		}
 
@@ -180,8 +180,8 @@ func (m *Server) addPorkbunHandlers() {
 		}
 
 		_, _ = rw.Write([]byte(`{
-            "status": "SUCCESS"
-        }`))
+			"status": "SUCCESS"
+		}`))
 	})
 
 	m.mux.HandleFunc("/dns/delete/{domain}/{id}", func(rw http.ResponseWriter, req *http.Request) {
@@ -193,9 +193,9 @@ func (m *Server) addPorkbunHandlers() {
 		_, ok := m.dnsRecords[domain]
 		if !ok {
 			_, _ = rw.Write([]byte(`{
-                "status": "FAILURE",
-                "message": "Record not found"
-            }`))
+				"status": "FAILURE",
+				"message": "Record not found"
+			}`))
 			return
 		}
 
@@ -206,7 +206,7 @@ func (m *Server) addPorkbunHandlers() {
 		}
 
 		_, _ = rw.Write([]byte(`{
-            "status": "SUCCESS"
-        }`))
+			"status": "SUCCESS"
+		}`))
 	})
 }

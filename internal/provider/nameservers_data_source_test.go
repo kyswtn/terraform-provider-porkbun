@@ -18,10 +18,10 @@ func TestNameserversDataSource(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: providerConfig + `
-                    data "porkbun_nameservers" "test" {
-                        domain = "example.com"
-                    }
-                `,
+					data "porkbun_nameservers" "test" {
+						domain = "example.com"
+					}
+				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("data.porkbun_nameservers.test", "domain", "example.com"),
 					resource.TestCheckResourceAttr("data.porkbun_nameservers.test", "nameservers.0", "evan.ns.cloudflare.com"),

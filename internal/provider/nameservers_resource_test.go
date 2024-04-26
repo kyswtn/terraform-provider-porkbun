@@ -16,14 +16,14 @@ func TestNameserversResource(t *testing.T) {
 			// Test create, read and update.
 			{
 				Config: providerConfig + `
-                    resource "porkbun_nameservers" "test" {
-                        domain = "example.com"
-                        nameservers = [
-                            "evan.ns.cloudflare.com",
-                            "sandy.ns.cloudflare.com"
-                        ]
-                    }
-                `,
+					resource "porkbun_nameservers" "test" {
+						domain = "example.com"
+						nameservers = [
+							"evan.ns.cloudflare.com",
+							"sandy.ns.cloudflare.com"
+						]
+					}
+				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("porkbun_nameservers.test", "domain", "example.com"),
 					resource.TestCheckResourceAttr("porkbun_nameservers.test", "nameservers.0", "evan.ns.cloudflare.com"),

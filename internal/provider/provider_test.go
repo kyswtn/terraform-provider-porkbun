@@ -24,12 +24,12 @@ func getProviderConfigWithMockServer(t *testing.T) (string, *mockbun.Server) {
 	t.Cleanup(mockbunServer.Close)
 
 	config := fmt.Sprintf(`
-    provider "porkbun" {
-        api_key         = "apikey"
-        secret_api_key  = "secretapikey"
-        custom_base_url = "%s"
-    }
-    `, mockbunServer.URL)
+		provider "porkbun" {
+			api_key         = "apikey"
+			secret_api_key  = "secretapikey"
+			custom_base_url = "%s"
+		}
+	`, mockbunServer.URL)
 
 	return config, mockbunServer
 }

@@ -15,12 +15,12 @@ func TestDNSRecordResource(t *testing.T) {
 			// Test create and read.
 			{
 				Config: providerConfig + `
-			                 resource "porkbun_dns_record" "test" {
-			                     domain = "example.com"
-			                     type = "A"
-			                     content = "1.2.3.4"
-			                 }
-			             `,
+					resource "porkbun_dns_record" "test" {
+						domain = "example.com"
+						type = "A"
+						content = "1.2.3.4"
+					}
+				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("porkbun_dns_record.test", "domain", "example.com"),
 					resource.TestCheckResourceAttr("porkbun_dns_record.test", "type", "A"),
@@ -31,13 +31,13 @@ func TestDNSRecordResource(t *testing.T) {
 			// TODO: How would I pass ID from previous porkbun_dns_record.test into the new block so that I can test?
 			// {
 			// 	Config: providerConfig + `
-			//                  resource "porkbun_dns_record" "test" {
-			//                      domain = "example.com"
-			//                               name = "www"
-			//                      type = "CNAME"
-			//                      content = "4.3.2.1"
-			//                  }
-			//              `,
+			//  		resource "porkbun_dns_record" "test" {
+			// 			domain = "example.com"
+			// 			name = "www"
+			// 			type = "CNAME"
+			// 			content = "4.3.2.1"
+			// 		}
+			// 	`,
 			// 	Check: resource.ComposeAggregateTestCheckFunc(
 			// 		resource.TestCheckResourceAttr("porkbun_dns_record.test", "domain", "example.com"),
 			// 		resource.TestCheckResourceAttr("porkbun_dns_record.test", "name", "www"),
