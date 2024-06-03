@@ -19,21 +19,22 @@ type DNSRecord struct {
 
 type createDNSRecordResponse struct {
 	status
-	ID string `json:"id"`
+	// Porkbun's API will return an `int` upon creation, but it'll be a string when retrieved.
+	ID int `json:"id"`
 }
 
-func (c *Client) CreateDNSRecord(ctx context.Context, domain string, record DNSRecord) (string, error) {
+func (c *Client) CreateDNSRecord(ctx context.Context, domain string, record DNSRecord) (int, error) {
 	url := c.baseURL.JoinPath("dns", "create", domain)
 
 	var response createDNSRecordResponse
 	err := c.do(ctx, url, record, &response)
 
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
 	if response.failed() {
-		return "", err
+		return 0, err
 	}
 
 	return response.ID, nil

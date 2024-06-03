@@ -114,7 +114,7 @@ func (m *Server) addPorkbunHandlers() {
 		m.dnsRecords[domain] = append(m.dnsRecords[domain], b)
 		_, _ = rw.Write([]byte(fmt.Sprintf(`{
 			"status": "SUCCESS",
-			"id": "%s"
+			"id": %s
 		}`, b.ID)))
 	})
 
