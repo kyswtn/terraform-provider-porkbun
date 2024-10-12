@@ -30,7 +30,7 @@ func New(APIKey, SecretAPIKey string) Client {
 		},
 		baseURL: &url.URL{
 			Scheme: "https",
-			Host:   "porkbun.com",
+			Host:   "api.porkbun.com",
 			Path:   "/api/json/v3",
 		},
 		httpClient: &http.Client{
