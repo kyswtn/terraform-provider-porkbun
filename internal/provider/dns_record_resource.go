@@ -150,7 +150,7 @@ func (r *DNSRecordResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	data.ID = types.StringValue(strconv.Itoa(ID))
+	data.ID = types.StringValue(ID)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
