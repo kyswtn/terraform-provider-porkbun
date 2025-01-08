@@ -17,45 +17,67 @@ type DNSRecord struct {
 	Notes    string `json:"notes,omitempty"`
 }
 
-type createDNSRecordResponse struct {
-	status
+func (dns DNSRecord) Merge(data DNSRecord) DNSRecord {
+	if data.Name != "" {
+		dns.Name = data.Name
+	}
+	if data.Type != "" {
+		dns.Type = data.Type
+	}
+	if data.Content != "" {
+		dns.Content = data.Content
+	}
+	if data.TTL != "" {
+		dns.TTL = data.TTL
+	}
+	if data.Priority != "" {
+		dns.Priority = data.Priority
+	}
+	if data.Notes != "" {
+		dns.Notes = data.Notes
+	}
+	return dns
+}
+
+type CreateDNSRecordResponse struct {
+	Status
 	ID string `json:"id"`
 }
 
 func (c *Client) CreateDNSRecord(ctx context.Context, domain string, record DNSRecord) (string, error) {
 	url := c.baseURL.JoinPath("dns", "create", domain)
 
-	var response createDNSRecordResponse
-	err := c.do(ctx, url, record, &response)
+	var response CreateDNSRecordResponse
+	err := c.Do(ctx, url, record, &response)
 
 	if err != nil {
 		return "", err
 	}
 
-	if response.failed() {
+	if response.HasFailed() {
 		return "", err
 	}
 
 	return response.ID, nil
 }
 
-type retrieveDNSRecordResponse struct {
-	status
+type RetrieveDNSRecordResponse struct {
+	Status
 	Records []DNSRecord `json:"records"`
 }
 
 func (c *Client) RetrieveDNSRecord(ctx context.Context, domain, id string) (DNSRecord, error) {
 	url := c.baseURL.JoinPath("dns", "retrieve", domain, id)
 
-	var response retrieveDNSRecordResponse
-	err := c.do(ctx, url, nil, &response)
+	var response RetrieveDNSRecordResponse
+	err := c.Do(ctx, url, nil, &response)
 
 	if err != nil {
 		return DNSRecord{}, err
 	}
 
-	if response.failed() {
-		return DNSRecord{}, response.status
+	if response.HasFailed() {
+		return DNSRecord{}, response.Status
 	}
 
 	if len(response.Records) < 1 {
@@ -68,14 +90,14 @@ func (c *Client) RetrieveDNSRecord(ctx context.Context, domain, id string) (DNSR
 func (c *Client) EditDNSRecord(ctx context.Context, domain, id string, record DNSRecord) error {
 	url := c.baseURL.JoinPath("dns", "edit", domain, id)
 
-	response := status{}
-	err := c.do(ctx, url, record, &response)
+	response := Status{}
+	err := c.Do(ctx, url, record, &response)
 
 	if err != nil {
 		return err
 	}
 
-	if response.failed() {
+	if response.HasFailed() {
 		return response
 	}
 
@@ -85,14 +107,14 @@ func (c *Client) EditDNSRecord(ctx context.Context, domain, id string, record DN
 func (c *Client) DeleteDNSRecord(ctx context.Context, domain, id string) error {
 	url := c.baseURL.JoinPath("dns", "delete", domain, id)
 
-	response := status{}
-	err := c.do(ctx, url, nil, &response)
+	response := Status{}
+	err := c.Do(ctx, url, nil, &response)
 
 	if err != nil {
 		return err
 	}
 
-	if response.failed() {
+	if response.HasFailed() {
 		return response
 	}
 

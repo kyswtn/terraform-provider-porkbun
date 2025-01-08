@@ -220,6 +220,11 @@ func (r *DNSRecordResource) Update(ctx context.Context, req resource.UpdateReque
 		record.Notes = data.Notes.ValueString()
 	}
 
+	if data.ID.ValueString() == "" {
+		resp.Diagnostics.AddError("ID is required for updating DNS records", "")
+		return
+	}
+
 	err := r.client.EditDNSRecord(ctx, data.Domain.ValueString(), data.ID.ValueString(), record)
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to update DNS record", err.Error())

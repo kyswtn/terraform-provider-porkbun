@@ -22,29 +22,12 @@ func TestDNSRecordResource(t *testing.T) {
 					}
 				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("porkbun_dns_record.test", "id", "2010068919648951531"),
 					resource.TestCheckResourceAttr("porkbun_dns_record.test", "domain", "example.com"),
 					resource.TestCheckResourceAttr("porkbun_dns_record.test", "type", "A"),
 					resource.TestCheckResourceAttr("porkbun_dns_record.test", "content", "1.2.3.4"),
 				),
 			},
-			// Test update and read with subdomain.
-			// TODO: How would I pass ID from previous porkbun_dns_record.test into the new block so that I can test?
-			// {
-			// 	Config: providerConfig + `
-			//  		resource "porkbun_dns_record" "test" {
-			// 			domain = "example.com"
-			// 			name = "www"
-			// 			type = "CNAME"
-			// 			content = "4.3.2.1"
-			// 		}
-			// 	`,
-			// 	Check: resource.ComposeAggregateTestCheckFunc(
-			// 		resource.TestCheckResourceAttr("porkbun_dns_record.test", "domain", "example.com"),
-			// 		resource.TestCheckResourceAttr("porkbun_dns_record.test", "name", "www"),
-			// 		resource.TestCheckResourceAttr("porkbun_dns_record.test", "type", "CNAME"),
-			// 		resource.TestCheckResourceAttr("porkbun_dns_record.test", "content", "4.3.2.1"),
-			// 	),
-			// },
 		},
 	})
 }

@@ -2,22 +2,22 @@ package client
 
 import "context"
 
-type pingResponse struct {
-	status
+type PingResponse struct {
+	Status
 	YourIp string `json:"yourIp"`
 }
 
 func (c *Client) Ping(ctx context.Context) (string, error) {
 	url := c.baseURL.JoinPath("ping")
 
-	var response pingResponse
-	err := c.do(ctx, url, nil, &response)
+	var response PingResponse
+	err := c.Do(ctx, url, nil, &response)
 	if err != nil {
 		return "", err
 	}
 
-	if response.status.failed() {
-		return "", response.status
+	if response.Status.HasFailed() {
+		return "", response.Status
 	}
 
 	return response.YourIp, nil
