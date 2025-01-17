@@ -196,37 +196,44 @@ func (r *DNSRecordResource) Read(ctx context.Context, req resource.ReadRequest, 
 }
 
 func (r *DNSRecordResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data DNSRecordResourceModel
+	var state DNSRecordResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	var plan DNSRecordResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
 	record := porkbun.DNSRecord{
-		Name:    data.Name.ValueString(),
-		Type:    data.Type.ValueString(),
-		Content: data.Content.ValueString(),
-		TTL:     strconv.Itoa(int(data.TTL.ValueInt64())),
+		Name:    plan.Name.ValueString(),
+		Type:    plan.Type.ValueString(),
+		Content: plan.Content.ValueString(),
+		TTL:     strconv.Itoa(int(plan.TTL.ValueInt64())),
 	}
 
-	priority := int(data.Priority.ValueInt64())
+	priority := int(plan.Priority.ValueInt64())
 	if priority != 0 {
 		record.Priority = strconv.Itoa(priority)
 	}
 
-	notes := data.Notes.ValueString()
+	notes := plan.Notes.ValueString()
 	if notes != "" {
-		record.Notes = data.Notes.ValueString()
+		record.Notes = plan.Notes.ValueString()
 	}
 
-	err := r.client.EditDNSRecord(ctx, data.Domain.ValueString(), data.ID.ValueString(), record)
+	plan.Domain = state.Domain
+	plan.ID = state.ID
+	err := r.client.EditDNSRecord(ctx, plan.Domain.ValueString(), plan.ID.ValueString(), record)
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to update DNS record", err.Error())
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
 
 func (r *DNSRecordResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
