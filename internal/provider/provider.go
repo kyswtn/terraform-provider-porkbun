@@ -46,14 +46,14 @@ func (p *PorkbunProvider) Schema(ctx context.Context, req provider.SchemaRequest
 			"api_key": schema.StringAttribute{
 				MarkdownDescription: "`apikey` required by Porkbun API. " +
 					"Can also be configured using the `PORKBUN_API_KEY` environment variable.",
-				Required:  true,
 				Sensitive: true,
+				Optional:  true,
 			},
 			"secret_api_key": schema.StringAttribute{
 				MarkdownDescription: "`secretapikey` required by Porkbun API. " +
 					"Can also be configured using the `PORKBUN_SECRET_API_KEY` environment variable.",
-				Required:  true,
 				Sensitive: true,
+				Optional:  true,
 			},
 			"custom_base_url": schema.StringAttribute{
 				MarkdownDescription: "Override the default base URL (https://porkbun.com/api/json/v3) used by Porkbun API client. " +
