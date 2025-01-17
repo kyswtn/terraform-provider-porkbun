@@ -34,7 +34,7 @@ func (c *Client) CreateDNSRecord(ctx context.Context, domain string, record DNSR
 	}
 
 	if response.failed() {
-		return 0, err
+		return 0, response.status
 	}
 
 	return response.ID, nil
