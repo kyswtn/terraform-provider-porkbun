@@ -3,6 +3,7 @@ module github.com/kyswtn/terraform-provider-porkbun
 go 1.22.1
 
 require (
+	github.com/fatih/structs v1.1.0
 	github.com/hashicorp/go-retryablehttp v0.7.5
 	github.com/hashicorp/terraform-plugin-docs v0.18.0
 	github.com/hashicorp/terraform-plugin-framework v1.7.0
@@ -23,7 +24,6 @@ require (
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/cloudflare/circl v1.3.7 // indirect
 	github.com/fatih/color v1.16.0 // indirect
-	github.com/fatih/structs v1.1.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect

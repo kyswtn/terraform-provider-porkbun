@@ -1,13 +1,12 @@
 package mockbun
 
 import (
-	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"net/http/httptest"
 
 	porkbun "github.com/kyswtn/terraform-provider-porkbun/internal/client"
-	"google.golang.org/appengine/log"
 )
 
 type Server struct {
@@ -50,12 +49,12 @@ func (s *Server) Write(writer http.ResponseWriter, body any) {
 	writer.Header().Set("Content-Type", "application/json")
 	data, err := json.Marshal(body)
 	if err != nil {
-		log.Warningf(context.TODO(), "Failed to marshal response: %v", err)
+		log.Printf("Failed to marshal response: %v", err)
 	}
 
 	_, err = writer.Write(data)
 	if err != nil {
-		log.Warningf(context.TODO(), "Failed to write response: %v", err)
+		log.Printf("Failed to write response: %v", err)
 	}
 }
 

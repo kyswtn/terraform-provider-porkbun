@@ -1,16 +1,15 @@
 package mockbun
 
 import (
-	"context"
 	"crypto/md5"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 
 	"github.com/kyswtn/terraform-provider-porkbun/internal/client"
-	"google.golang.org/appengine/log"
 )
 
 // newId is a helper to make predictable id's to check with within tests
@@ -29,7 +28,7 @@ func (s *Server) dns_create(w http.ResponseWriter, r *http.Request) {
 	var record client.DNSRecord
 	err := json.NewDecoder(r.Body).Decode(&record)
 	if err != nil {
-		log.Warningf(context.TODO(), "Failed to decode request: %v", err)
+		log.Printf("Failed to decode request: %v", err)
 		return
 	}
 
