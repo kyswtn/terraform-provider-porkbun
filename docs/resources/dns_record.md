@@ -18,9 +18,9 @@ resource "porkbun_dns_record" "example" {
   name     = "www"
   type     = "CNAME"
   content  = "cname.vercel-dns.com"
-  TTL      = 300
-  Priority = 1
-  Notes    = "Redirect www.example.com to example.com"
+  ttl      = 300
+  priority = 1
+  notes    = "Redirect www.example.com to example.com"
 }
 ```
 
